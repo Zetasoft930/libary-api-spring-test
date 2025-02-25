@@ -10,11 +10,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 @RestControllerAdvice
-public class GlobalArgumentNotValidExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Response> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -41,5 +40,15 @@ public class GlobalArgumentNotValidExceptionHandler {
         response.getErrors().add(ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(IdNotFoundException.class)
+    public ResponseEntity<Response> handleValidationExceptions(IdNotFoundException ex) {
+        Map<String, String> errors = new HashMap<>();
+        Response response =new Response();
+
+        response.getErrors().add(ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 }
