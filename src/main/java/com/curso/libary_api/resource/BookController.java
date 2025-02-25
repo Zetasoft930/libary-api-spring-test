@@ -5,6 +5,7 @@ import com.curso.libary_api.domain.dto.BookDTO;
 import com.curso.libary_api.handle.IdNotFoundException;
 import com.curso.libary_api.service.interafaces.BookService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/books")
+@Slf4j
 public class BookController {
 
     @Autowired
@@ -29,6 +31,7 @@ public class BookController {
     @ResponseStatus(HttpStatus.CREATED)
     public BookDTO create(@RequestBody @Valid BookDTO  request){
 
+        log.info("create a bok for isbn {}",request.getIsbn());
         Book modelForSave= modelMapper.map(request, Book.class);
 
         Book resultSave = null;
